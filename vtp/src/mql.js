@@ -1,20 +1,35 @@
 // test portrait/landscape
 
-import { create, of, fromEvent, concat } from 'rxjs'
-import { map } from 'rxjs/operators'
+import {
+    Observable,
+    ReplaySubject,
+    of ,
+    /*fromEvent,*/ concat
+} from 'rxjs'
+import {
+    map
+} from 'rxjs/operators'
 
 const mql = window.matchMedia("(orientation: landscape)")
-console.log(mql)
 
-mql.addListener(function(e) {
-    console.log(e)
+const eventAgent = Observable.create(ob => {
+    mql.addListener(function (e) {
+        ob.next(e)
+    })
 })
 
-const landscapeOb = concat(
-    of(mql),
-    fromEvent(mql, 'change'),
+
+const landscape$ = concat( of (mql),
+    // fromEvent(mql, 'change'),
+    eventAgent,
 ).pipe(map(e => e.matches))
 
+// const replayLandscape$ = new ReplaySubject(1)
+// landscape$.subscribe(e => {
+//     replayLandscape$.next(e)
+// })
+
 export {
-    landscapeOb
+    landscape$,
+    // replayLandscape$,
 }
