@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "hammerjs": "^2.0.8",
     "rxjs": "^6.4.0"
   },
   "name": "vtp",
