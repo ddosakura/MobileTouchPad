@@ -15,6 +15,17 @@ module.exports = {
         inline: true,
         progress: true,
         disableHostCheck: true,
+        proxy: {
+            '/ws': {
+                target: 'ws://localhost:8880/ws',
+                pathRewrite: {
+                    '^/ws': ''
+                },
+                ws: true,
+                changeOrigin: true,
+                secure: false,
+            }
+        }
     },
     module: {
         rules: [{

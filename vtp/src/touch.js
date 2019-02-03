@@ -11,21 +11,56 @@ import {
     takeUntil,
     filter,
 } from 'rxjs/operators'
+import { speed } from './config'
+
+let ws
+
+function send(e) {
+    ws.send(JSON.stringify(e))
+}
 
 function moveAction(e) {
-    console.log(e)
+    if (ws.readyState !== 1) {
+        alert("WS ERROR!")
+        return
+    }
+    e.type = 'move'
+    e.speed = speed
+    send(e)
 }
 
 function resetAction(e) {
-    console.warn(e)
+    if (ws.readyState !== 1) {
+        alert("WS ERROR!")
+        return
+    }
+    e.type = 'reset'
+    send(e)
 }
 
 function clickAction(t, e) {
-    console.log(t, e)
+    if (ws.readyState !== 1) {
+        alert("WS ERROR!")
+        return
+    }
+    e.type = t
+    send(e)
 }
 
 export default function touchInit(el) {
-    window.el = el
+    const url = "ws://" + window.location.host + "/ws"
+    console.log(url)
+    ws = new WebSocket(url)
+    window.ws = ws
+    ws.onopen = function () {
+        console.log('ws open!')
+    }
+    ws.onclose = function (e) {
+        console.error('ws close!')
+    }
+    ws.onmessage = function (e) {
+        console.log('ws', e)
+    }
 
     const ts$ = fromEvent(obj, "touchstart")
     const tm$ = fromEvent(obj, "touchmove")
@@ -36,8 +71,8 @@ export default function touchInit(el) {
         concatMap(se => tm$.pipe(
             map(e => e.changedTouches[0]),
             map(me => ({
-                x: me.clientX - se.clientX,
-                y: me.clientY - se.clientY,
+                x: me.clientX, // - se.clientX,
+                y: me.clientY, // - se.clientY,
             })),
             takeUntil(te$),
         )),
@@ -71,9 +106,9 @@ export default function touchInit(el) {
             })),
         ).subscribe(ee => {
             if (ee.timeStamp - se.timeStamp < 300) {
-                clickAction('l', ee.p)
+                clickAction('left', ee.p)
             } else {
-                clickAction('r', ee.p)
+                clickAction('right', ee.p)
             }
         })
     })

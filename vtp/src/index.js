@@ -8,7 +8,12 @@ import configInit from './config'
 import touchInit from './touch'
 
 window.onload = function () {
-    document.body.onmousemove = e => e.preventDefault()
+    // 禁止 iOS 下的页面异常滚动
+    //document.body.ontouchmove= e => e.preventDefault()
+    document.body.addEventListener('touchmove', e => e.preventDefault(), {
+        passive: false
+    })
+
     // const rootEl = document.getElementById("root")
 
     const stateEl = document.getElementById("state")
