@@ -11,7 +11,7 @@ cd ..
 cp -r ./vtp/build/* ./mtp-agent/assets/
 cd mtp-agent
 go generate
-go build
+go build -o build/mtpa .
 ```
 
 ## mtp-agent
