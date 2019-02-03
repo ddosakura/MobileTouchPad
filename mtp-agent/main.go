@@ -1,3 +1,6 @@
+//go:generate statik -src=./assets -f
+//go:generate go fmt statik/statik.go
+
 package main
 
 import (
@@ -7,20 +10,33 @@ import (
 	"net/http"
 	"os"
 
+	_ "./statik"
 	"github.com/ddosakura/gklang"
+	"github.com/rakyll/statik/fs"
 	"golang.org/x/net/websocket"
 )
 
 func main() {
 	l := log.New(os.Stdout, "[xxxx]: ", log.LstdFlags)
-	gklang.LoadLogger(l, gklang.LvDebug)
+	dev := os.Getenv("MTPA_DEV")
+	if dev == "true" {
+		gklang.LoadLogger(l, gklang.LvDebug)
+	} else {
+		gklang.LoadLogger(l, gklang.LvInfo)
+	}
 
-	port := os.Getenv("DSSDC_PORT")
+	statikFS, e := fs.New()
+	if e != nil {
+		gklang.Er(e)
+	}
+
+	port := os.Getenv("MTPA_PORT")
 	if port == "" {
 		port = ":8880"
 	}
 
 	http.Handle("/ws", websocket.Handler(wsHandler))
+	http.Handle("/", http.FileServer(statikFS))
 
 	initSys()
 
