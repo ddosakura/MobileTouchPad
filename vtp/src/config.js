@@ -89,6 +89,3 @@ export default function configInit(area, obj, val) {
 export {
     P as speed,
 }
-
-// plan2 (hammerjs)
-

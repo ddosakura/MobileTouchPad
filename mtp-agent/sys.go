@@ -17,6 +17,19 @@ func initSys() {
 	gklang.Log(gklang.LInfo, "init", x, y)
 }
 
+// 获取目标坐标
+func getXY(a Action) (int, int) {
+	X := x + (a.X-pX)*a.Speed
+	if X < 0 {
+		X = 0
+	}
+	Y := y + (a.Y-pY)*a.Speed
+	if Y < 0 {
+		Y = 0
+	}
+	return X, Y
+}
+
 func callSys(a Action) {
 	gklang.Log(gklang.LDebug, a)
 	switch a.Type {
@@ -26,22 +39,35 @@ func callSys(a Action) {
 			pX, pY = a.X, a.Y
 			return
 		}
-		X := x + (a.X-pX)*a.Speed/10
-		if X < 0 {
-			X = 0
-		}
-		Y := y + (a.Y-pY)*a.Speed/10
-		if Y < 0 {
-			Y = 0
-		}
+		X, Y := getXY(a)
 		// println("move", X, Y)
-		robotgo.MoveMouseSmooth(X, Y, 4.0/float64(a.Speed), 6.0/float64(a.Speed))
+		robotgo.MoveMouseSmooth(X, Y, 0.4/float64(a.Speed), 0.6/float64(a.Speed))
 	case "reset":
 		reset = true
 		x, y = robotgo.GetMousePos()
-	case "left", "right":
+	case "left", "center", "right":
 		robotgo.MouseClick(a.Type)
-	case "left2", "right2":
-		robotgo.MouseClick(a.Type, true)
+	// case "left2", "right2":
+	// 	robotgo.MouseClick(a.Type, true)
+	case "scroll-up":
+		robotgo.ScrollMouse(a.Speed*10, "up")
+	case "scroll-down":
+		robotgo.ScrollMouse(a.Speed*10, "down")
+
+	case "mouse-down":
+		robotgo.MouseToggle("down")
+	case "drag":
+		if reset {
+			reset = false
+			pX, pY = a.X, a.Y
+			return
+		}
+		X, Y := getXY(a)
+		// println("move", X, Y)
+		robotgo.MoveMouseSmooth(X, Y, 0.4/float64(a.Speed), 0.6/float64(a.Speed))
+		// robotgo.DragMouse(a.X, a.Y)
+	case "mouse-up":
+		robotgo.MouseToggle("up")
 	}
+
 }
