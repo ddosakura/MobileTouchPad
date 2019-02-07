@@ -1,11 +1,22 @@
+import {
+    Observable,
+    of ,
+    fromEvent,
+    concat
+} from 'rxjs'
+import {
+    map,
+    concatlAll,
+    concatMap,
+    takeUntil,
+    filter,
+    skip,
+} from 'rxjs/operators'
 import wsInit, {
     sendAction
 } from './ws'
 import Hammer from 'hammerjs'
 import VTPState from './VTPState'
-import {
-    fromEvent
-} from 'rxjs';
 
 function debug(...v) {
     console.log(v)
@@ -57,8 +68,8 @@ function initAction(el, ell, elc, elr) {
         // 长按
         press$: fromEvent(obj, "pressup"),
         // 移动
+        panstart$: fromEvent(obj, "panstart"),
         pan$: fromEvent(obj, "panmove"),
-        // 移动结束
         panend$: fromEvent(obj, "panend"),
         // 向左滑动
         swipeleft$: fromEvent(obj, "swipeleft"),
@@ -95,6 +106,7 @@ export default function actionInit({
         tapc$,
         tapr$,
         press$,
+        panstart$,
         pan$,
         panend$,
         swipeleft$,
@@ -108,8 +120,6 @@ export default function actionInit({
 
     debug(
         press$,
-        pan$,
-        panend$,
         /*rotate$,*/
     )
 
@@ -120,7 +130,6 @@ export default function actionInit({
     // mode-0 速度调整
     // mode-1 上下滚轮
     swipeup$.subscribe(e => {
-        console.log(e)
         if (vtps.mode() == 0) {
             // 减速
             vtps.lspeed()
@@ -134,7 +143,6 @@ export default function actionInit({
         }
     })
     swipedown$.subscribe(e => {
-        console.log(e)
         if (vtps.mode() == 0) {
             // 加速
             vtps.rspeed()
@@ -176,4 +184,50 @@ export default function actionInit({
             type: 'mouse-up',
         })
     })
+
+    // 鼠标移动
+    panstart$.pipe(
+        concatMap(s => pan$.pipe(
+            skip(5),
+            map(e => e.changedPointers[0]),
+            map(me => ({
+                x: me.clientX, // - se.clientX,
+                y: me.clientY, // - se.clientY,
+            })),
+            takeUntil(panend$),
+        )),
+    ).subscribe(e => {
+        console.log(e)
+        sendAction({
+            type: 'move',
+            speed: vtps.speed(),
+            x: e.x,
+            y: e.y,
+        })
+    })
+    panend$.pipe(
+        map(e => e.changedPointers[0]),
+        map(e => ({
+            x: e.clientX,
+            y: e.clientY,
+        })),
+    ).subscribe(e => {
+        console.log(e)
+        sendAction({
+            type: 'reset',
+            x: e.x,
+            y: e.y,
+        })
+    })
+}
+
+// TODO: old func
+
+function resetAction(e) {
+    if (ws.readyState !== 1) {
+        alert("WS ERROR!")
+        return
+    }
+    e.type = 'reset'
+    send(e)
 }
