@@ -38,8 +38,16 @@ window.onload = function () {
     */
 
     const objEl = document.getElementById("obj")
+    const objEl_L = document.getElementById("obj-left")
+    const objEl_C = document.getElementById("obj-center")
+    const objEl_R = document.getElementById("obj-right")
     // touchInit(objEl)
-    actionInit(objEl, function(state) {
+    actionInit({
+        el: objEl,
+        ell: objEl_L,
+        elc: objEl_C,
+        elr: objEl_R
+    }, function (state) {
         stateEl.innerHTML = state
     })
 }

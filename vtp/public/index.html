@@ -33,10 +33,10 @@
             left: 0;
             right: 0;
 
-            background-color: red;
+            /*background-color: red;*/
         }
 
-/*
+        /*
         #config {
             position: absolute;
             top: 20px;
@@ -69,7 +69,71 @@
             left: 0;
             right: 0;
 
+            /*background-color: green;*/
+        }
+
+        .obj-child {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            text-align: center;
+        }
+
+        #obj-left {
+            background-color: red;
+        }
+
+        #obj-center {
+            background-color: blue;
+        }
+
+        #obj-right {
             background-color: green;
+        }
+
+        @media screen and (orientation: portrait) {
+
+            /* 竖屏 */
+            #obj-left {
+                top: 50%;
+                padding-top: 40%;
+            }
+
+            #obj-center {
+                bottom: 50%;
+                right: 50%;
+                padding-top: 40%;
+            }
+
+            #obj-right {
+                bottom: 50%;
+                left: 50%;
+                padding-top: 40%;
+            }
+        }
+
+        @media screen and (orientation: landscape) {
+
+            /* 横屏 */
+            #obj-left {
+                left: 50%;
+                padding-top: 25%;
+            }
+
+            #obj-center {
+                bottom: 50%;
+                right: 50%;
+                padding-top: 11%;
+            }
+
+            #obj-right {
+                top: 50%;
+                right: 50%;
+                padding-top: 12%;
+            }
         }
     </style>
 
@@ -90,7 +154,11 @@
             </div>
         </div>
         -->
-        <div id="obj"></div>
+        <div id="obj">
+            <div class='obj-child' id='obj-left'>左键（主键）</div>
+            <div class='obj-child' id='obj-center'>中间（滚轮）</div>
+            <div class='obj-child' id='obj-right'>右键（辅键）</div>
+        </div>
     </div>
 </body>
 

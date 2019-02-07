@@ -6,4 +6,5 @@ type Action struct {
 	X     int    `json:"x"`
 	Y     int    `json:"y"`
 	Speed int    `json:"speed"`
+	Code  int    `json:"code"`
 }

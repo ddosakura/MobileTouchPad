@@ -14,7 +14,7 @@ function debug(...v) {
     }
 }
 
-function initAction(el) {
+function initAction(el, ell, elc, elr) {
     const obj = new Hammer(el)
     obj.get('pinch').set({
         enable: true,
@@ -28,6 +28,10 @@ function initAction(el) {
     obj.get('swipe').set({
         direction: Hammer.DIRECTION_ALL,
     })
+
+    const objl = new Hammer(ell)
+    const objc = new Hammer(elc)
+    const objr = new Hammer(elr)
 
     /*
     const DoubleTap = new Hammer.Tap({
@@ -45,7 +49,9 @@ function initAction(el) {
 
     return {
         // 点击
-        tap1$: fromEvent(obj, 'tap'),
+        tapl$: fromEvent(objl, 'tap'),
+        tapc$: fromEvent(objc, 'tap'),
+        tapr$: fromEvent(objr, 'tap'),
         // 双击
         // tap2$: fromEvent(obj, 'doubletap'),
         // 长按
@@ -71,7 +77,12 @@ function initAction(el) {
     }
 }
 
-export default function actionInit(el, sendState) {
+export default function actionInit({
+    el,
+    ell,
+    elc,
+    elr,
+}, sendState) {
     wsInit()
 
     const vtps = new VTPState({
@@ -80,8 +91,9 @@ export default function actionInit(el, sendState) {
     }, sendState)
 
     const {
-        tap1$,
-        /*tap2$,*/
+        tapl$,
+        tapc$,
+        tapr$,
         press$,
         pan$,
         panend$,
@@ -92,15 +104,12 @@ export default function actionInit(el, sendState) {
         pinchin$,
         pinchout$,
         /*rotate$,*/
-    } = initAction(el)
+    } = initAction(el, ell, elc, elr)
 
-    debug(tap1$,
-        /*tap2$,*/
+    debug(
         press$,
         pan$,
         panend$,
-        pinchin$,
-        pinchout$,
         /*rotate$,*/
     )
 
@@ -139,7 +148,24 @@ export default function actionInit(el, sendState) {
         }
     })
 
-    // 按键抬起&放下
+    // 鼠标点击
+    tapl$.subscribe(e => {
+        sendAction({
+            type: 'left',
+        })
+    })
+    tapc$.subscribe(e => {
+        sendAction({
+            type: 'center',
+        })
+    })
+    tapr$.subscribe(e => {
+        sendAction({
+            type: 'right',
+        })
+    })
+
+    // 主键抬起&放下
     pinchin$.subscribe(e => {
         sendAction({
             type: 'mouse-down',
