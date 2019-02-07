@@ -10,9 +10,10 @@ export default class VTPState {
         this.__update()
     }
     __update() {
-        const mode = `[${modeList[this.state.mode]}]: `
-        const speed = `speed-${this.state.speed}`
-        this.sendState(`${mode}${speed}`)
+        // const mode = `[${modeList[this.state.mode]}]: `
+        // const speed = `speed-${this.state.speed}`
+        // this.sendState(`${mode}${speed}`)
+        this.sendState(`speed: ${this.state.speed}`)
     }
     update(s) {
         Object.assign(this.state, s)

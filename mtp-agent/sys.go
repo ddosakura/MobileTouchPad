@@ -50,10 +50,11 @@ func callSys(a Action) {
 	// case "left2", "right2":
 	// 	robotgo.MouseClick(a.Type, true)
 	case "scroll-up":
-		robotgo.ScrollMouse(a.Speed*10, "up")
+		// robotgo.ScrollMouse(int(math.Floor(math.Pow(float64(a.Speed), 1.5))), "up")
+		robotgo.ScrollMouse(a.Speed*a.Speed, "up")
 	case "scroll-down":
-		robotgo.ScrollMouse(a.Speed*10, "down")
-
+		//  robotgo.ScrollMouse(int(math.Floor(math.Pow(float64(a.Speed), 1.5))), "down")
+		robotgo.ScrollMouse(a.Speed*a.Speed, "down")
 	case "mouse-down":
 		robotgo.MouseToggle("down")
 	case "drag":

@@ -97,7 +97,7 @@ export default function actionInit({
     wsInit()
 
     const vtps = new VTPState({
-        mode: 0, // 0-1
+        // mode: 0, // 0-1
         speed: 6, // 1-10
     }, sendState)
 
@@ -123,6 +123,7 @@ export default function actionInit({
         /*rotate$,*/
     )
 
+    /*
     // 模式切换
     swipeleft$.subscribe(e => vtps.rmode())
     swiperight$.subscribe(e => vtps.lmode())
@@ -154,6 +155,26 @@ export default function actionInit({
                 speed: vtps.speed(),
             })
         }
+    })
+    */
+
+    // 速度调整
+    swipeleft$.subscribe(e => vtps.lspeed())
+    swiperight$.subscribe(e => vtps.rspeed())
+    // 上下滚轮
+    swipeup$.subscribe(e => {
+        // 滚轮（上）
+        sendAction({
+            type: 'scroll-up',
+            speed: vtps.speed(),
+        })
+    })
+    swipedown$.subscribe(e => {
+        // 滚轮（下）
+        sendAction({
+            type: 'scroll-down',
+            speed: vtps.speed(),
+        })
     })
 
     // 鼠标点击
