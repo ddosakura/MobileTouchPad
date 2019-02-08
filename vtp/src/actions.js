@@ -11,6 +11,7 @@ import {
     takeUntil,
     filter,
     skip,
+    find,
 } from 'rxjs/operators'
 import wsInit, {
     sendAction
@@ -66,7 +67,9 @@ function initAction(el, ell, elc, elr) {
         // 双击
         // tap2$: fromEvent(obj, 'doubletap'),
         // 长按
-        press$: fromEvent(obj, "pressup"),
+        pressl$: fromEvent(objl, "pressup"),
+        pressc$: fromEvent(objc, "pressup"),
+        pressr$: fromEvent(objr, "pressup"),
         // 移动
         panstart$: fromEvent(obj, "panstart"),
         pan$: fromEvent(obj, "panmove"),
@@ -105,7 +108,9 @@ export default function actionInit({
         tapl$,
         tapc$,
         tapr$,
-        press$,
+        pressl$,
+        pressc$,
+        pressr$,
         panstart$,
         pan$,
         panend$,
@@ -119,7 +124,6 @@ export default function actionInit({
     } = initAction(el, ell, elc, elr)
 
     debug(
-        press$,
         /*rotate$,*/
     )
 
@@ -194,6 +198,7 @@ export default function actionInit({
         })
     })
 
+    /*
     // 主键抬起&放下
     pinchin$.subscribe(e => {
         sendAction({
@@ -205,6 +210,12 @@ export default function actionInit({
             type: 'mouse-up',
         })
     })
+    */
+
+    // 按键抬起&放下
+    makeDownAndUpAction(pressl$, 'left')
+    makeDownAndUpAction(pressc$, 'center')
+    makeDownAndUpAction(pressr$, 'right')
 
     // 鼠标移动
     panstart$.pipe(
@@ -242,13 +253,21 @@ export default function actionInit({
     })
 }
 
-// TODO: old func
-
-function resetAction(e) {
-    if (ws.readyState !== 1) {
-        alert("WS ERROR!")
-        return
-    }
-    e.type = 'reset'
-    send(e)
+function makeDownAndUpAction($, data) {
+    $.pipe(
+        filter((v, i) => (i & 1) === 0),
+    ).subscribe(() => {
+        sendAction({
+            type: 'mouse-down',
+            data,
+        })
+    })
+    $.pipe(
+        filter((v, i) => (i & 1) === 1),
+    ).subscribe(() => {
+        sendAction({
+            type: 'mouse-up',
+            data,
+        })
+    })
 }

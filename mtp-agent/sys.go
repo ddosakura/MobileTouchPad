@@ -56,19 +56,19 @@ func callSys(a Action) {
 		//  robotgo.ScrollMouse(int(math.Floor(math.Pow(float64(a.Speed), 1.5))), "down")
 		robotgo.ScrollMouse(a.Speed*a.Speed, "down")
 	case "mouse-down":
-		robotgo.MouseToggle("down")
-	case "drag":
-		if reset {
-			reset = false
-			pX, pY = a.X, a.Y
-			return
-		}
-		X, Y := getXY(a)
-		// println("move", X, Y)
-		robotgo.MoveMouseSmooth(X, Y, 0.4/float64(a.Speed), 0.6/float64(a.Speed))
-		// robotgo.DragMouse(a.X, a.Y)
+		robotgo.MouseToggle("down", a.Data)
 	case "mouse-up":
-		robotgo.MouseToggle("up")
+		robotgo.MouseToggle("up", a.Data)
 	}
+	// case "drag":
+	// 	if reset {
+	// 		reset = false
+	// 		pX, pY = a.X, a.Y
+	// 		return
+	// 	}
+	// 	X, Y := getXY(a)
+	// 	// println("move", X, Y)
+	// 	robotgo.MoveMouseSmooth(X,Y,0.4/float64(a.Speed),0.6/float64(a.Speed))
+	// 	// robotgo.DragMouse(a.X, a.Y)
 
 }
