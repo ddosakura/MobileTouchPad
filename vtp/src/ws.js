@@ -1,23 +1,32 @@
-let ws
+import {
+    webSocket,
+    WebSocketSubject,
+} from 'rxjs/webSocket'
+
+
+const url = "ws://" + window.location.host + "/ws"
+let socket$
+
+function init() {
+    socket$ = webSocket(url)
+    socket$.subscribe(
+        (msg) => console.log('message received: ' + msg),
+        (err) => socket$ = null,
+        () => console.log('complete')
+    )
+}
 
 export default function wsInit() {
-    const url = "ws://" + window.location.host + "/ws"
-    console.log(url)
-    ws = new WebSocket(url)
-    window.ws = ws
-    ws.onopen = function () {
-        console.log('ws open!')
-    }
-    ws.onclose = function (e) {
-        console.error('ws close!')
-    }
-    ws.onmessage = function (e) {
-        console.log('ws', e)
-    }
+    init()
 }
 
 function sendAction(e) {
-    ws.send(JSON.stringify(e))
+    console.log(socket$, e)
+    if (socket$ == null) {
+        init()
+    }
+    // auto JSON.stringify
+    socket$.next(e)
 }
 
 export {

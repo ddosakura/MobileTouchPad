@@ -41,7 +41,7 @@ func callSys(a Action) {
 		}
 		X, Y := getXY(a)
 		// println("move", X, Y)
-		robotgo.MoveMouseSmooth(X, Y, 0.4/float64(a.Speed), 0.6/float64(a.Speed))
+		robotgo.MoveMouseSmooth(X, Y, 0.3/float64(a.Speed), 0.5/float64(a.Speed))
 	case "reset":
 		reset = true
 		x, y = robotgo.GetMousePos()
