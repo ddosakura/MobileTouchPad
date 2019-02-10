@@ -99,10 +99,7 @@ export default function actionInit({
 }, sendState) {
     wsInit()
 
-    const vtps = new VTPState({
-        // mode: 0, // 0-1
-        speed: 6, // 1-10
-    }, sendState)
+    const vtps = new VTPState(sendState)
 
     const {
         tapl$,

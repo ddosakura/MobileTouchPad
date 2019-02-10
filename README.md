@@ -25,7 +25,7 @@ The web used in mobile.
 ### TODO
 
 + [x] 按住移动
-+ [ ] 缓存配置
++ [x] 缓存配置
 + [x] ws自动重连
 + [x] ws rxjs化
 + [ ] 键盘控制
