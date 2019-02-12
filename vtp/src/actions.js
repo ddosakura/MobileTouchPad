@@ -226,7 +226,6 @@ export default function actionInit({
             takeUntil(panend$),
         )),
     ).subscribe(e => {
-        console.log(e)
         sendAction({
             type: 'move',
             speed: vtps.speed(),
@@ -241,7 +240,6 @@ export default function actionInit({
             y: e.clientY,
         })),
     ).subscribe(e => {
-        console.log(e)
         sendAction({
             type: 'reset',
             x: e.x,
