@@ -24,7 +24,7 @@ const (
 )
 
 func main() {
-	l := log.New(os.Stdout, "[xxxx]: ", log.LstdFlags)
+	l := log.New(os.Stdout, "[MTPA]: ", log.LstdFlags)
 	dev := os.Getenv("MTPA_DEV")
 	if dev == "true" {
 		gklang.LoadLogger(l, gklang.LvDebug)
