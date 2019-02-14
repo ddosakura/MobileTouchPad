@@ -21,7 +21,7 @@ export default function wsInit() {
 }
 
 function sendAction(e) {
-    console.log(socket$, e)
+    // console.log(socket$, e)
     if (socket$ == null) {
         init()
     }

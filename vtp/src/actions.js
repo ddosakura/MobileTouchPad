@@ -96,6 +96,8 @@ export default function actionInit({
     ell,
     elc,
     elr,
+    initKB,
+    removeKB,
 }, sendState) {
     wsInit()
 
@@ -120,9 +122,9 @@ export default function actionInit({
         /*rotate$,*/
     } = initAction(el, ell, elc, elr)
 
-    debug(
-        /*rotate$,*/
-    )
+    // debug(
+    //     /*rotate$,*/
+    // )
 
     /*
     // 模式切换
@@ -208,6 +210,11 @@ export default function actionInit({
         })
     })
     */
+
+    // 初始化键盘
+    pinchin$.subscribe(e => {
+        initKB()
+    })
 
     // 按键抬起&放下
     makeDownAndUpAction(pressl$, 'left')

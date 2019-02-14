@@ -61,7 +61,19 @@ module.exports = {
                 ],
                 "comments": false
             }
-        }],
+        }, {
+            test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
+            loader: 'url-loader',
+            options: {
+                limit: 10000,
+                name: '[path]/[name].[hash:7].[ext]',
+                /* publicPath:"/", */
+                outputPath:'images',
+            }
+        }/*, {
+            test: /\.(htm|html)$/i,
+            loader: 'html-withimg-loader',
+        }*/],
     },
     plugins: [
         new HtmlwebpackPlugin({

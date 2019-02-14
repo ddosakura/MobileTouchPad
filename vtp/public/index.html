@@ -70,6 +70,7 @@
             right: 0;
 
             /*background-color: green;*/
+            /*background-image: url('images/bg1.jpg');*/
         }
 
         .obj-child {
@@ -83,15 +84,15 @@
         }
 
         #obj-left {
-            background-color: red;
+            background-color: #f005;
         }
 
         #obj-center {
-            background-color: blue;
+            background-color: #00f5;
         }
 
         #obj-right {
-            background-color: green;
+            background-color: #0f05;
         }
 
         @media screen and (orientation: portrait) {
@@ -139,12 +140,7 @@
         #inputer {
             position: absolute;
             top: 20px;
-            bottom: 0;
-            left: 0;
-            right: 0;
-
-            visibility: hidden;
-            background-color: blue;
+            background-color: #fff;
         }
     </style>
 
@@ -158,7 +154,7 @@
 <body>
     <div id="root">
         <div id="state">@</div>
-        
+
         <!--
         <div id="config">
             <div id="config-block">
@@ -166,7 +162,7 @@
             </div>
         </div>
         -->
-        
+
         <!-- Mouse -->
         <div id="obj">
             <div class='obj-child' id='obj-left'>左键（主键）</div>
@@ -175,7 +171,7 @@
         </div>
 
         <!-- Keyboard -->
-        <canvas id='inputer'></canvas>>
+        <canvas id='inputer' width="0" height="0"></canvas>
 
     </div>
 </body>

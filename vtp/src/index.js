@@ -8,6 +8,9 @@ import {
 // import touchInit from './touch'
 
 import actionInit from './actions'
+import initKB, {
+    disableKB,
+} from './keyboard'
 
 window.onload = function () {
     // 禁止 iOS 下的页面异常滚动
@@ -16,7 +19,7 @@ window.onload = function () {
         passive: false
     })
 
-    // const rootEl = document.getElementById("root")
+    const rootEl = document.getElementById("root")
 
     const stateEl = document.getElementById("state")
     /*
@@ -37,6 +40,8 @@ window.onload = function () {
     configInit(configEl, configBlockEl, configValEl)
     */
 
+    const kb = document.getElementById("inputer")
+
     const objEl = document.getElementById("obj")
     const objEl_L = document.getElementById("obj-left")
     const objEl_C = document.getElementById("obj-center")
@@ -46,7 +51,13 @@ window.onload = function () {
         el: objEl,
         ell: objEl_L,
         elc: objEl_C,
-        elr: objEl_R
+        elr: objEl_R,
+        initKB: function () {
+            initKB(kb, rootEl.clientWidth, rootEl.clientHeight)
+        },
+        removeKB: function () {
+            disableKB(kb)
+        },
     }, function (state) {
         stateEl.innerHTML = state
     })
