@@ -29,3 +29,4 @@ The web used in mobile.
 + [x] ws自动重连
 + [x] ws rxjs化
 + [ ] 键盘控制
++ [ ] 还是用react重写吧 - 由于图片处理问题
