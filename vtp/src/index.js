@@ -32,6 +32,9 @@ window.onload = function () {
         }
     })
     */
+    fromEvent(stateEl, 'tap').subscribe(() => {
+        disableKB(kb)
+    })
 
     /*
     const configEl = document.getElementById("config")
@@ -54,9 +57,6 @@ window.onload = function () {
         elr: objEl_R,
         initKB: function () {
             initKB(kb, rootEl.clientWidth, rootEl.clientHeight)
-        },
-        removeKB: function () {
-            disableKB(kb)
         },
     }, function (state) {
         stateEl.innerHTML = state

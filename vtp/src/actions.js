@@ -97,7 +97,6 @@ export default function actionInit({
     elc,
     elr,
     initKB,
-    removeKB,
 }, sendState) {
     wsInit()
 
