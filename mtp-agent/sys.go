@@ -59,6 +59,14 @@ func callSys(a Action) {
 		robotgo.MouseToggle("down", a.Data)
 	case "mouse-up":
 		robotgo.MouseToggle("up", a.Data)
+	case "input":
+		robotgo.TypeString(a.Data)
+	case "key":
+		robotgo.KeyTap(a.Data)
+	case "keyup":
+		robotgo.KeyToggle(a.Data, "up")
+	case "keydown":
+		robotgo.KeyToggle(a.Data, "down")
 	}
 	// case "drag":
 	// 	if reset {

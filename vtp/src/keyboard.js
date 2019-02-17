@@ -74,4 +74,7 @@ export function disableKB(el) {
     el.lock = false
 
     // TODO:
+    console.log("disabling")
+    el.width = 0
+    el.height = 0
 }

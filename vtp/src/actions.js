@@ -97,6 +97,7 @@ export default function actionInit({
     elc,
     elr,
     initKB,
+    initMKB,
 }, sendState) {
     wsInit()
 
@@ -211,6 +212,9 @@ export default function actionInit({
     */
 
     // 初始化键盘
+    pinchout$.subscribe(e => {
+        initMKB()
+    })
     pinchin$.subscribe(e => {
         initKB()
     })

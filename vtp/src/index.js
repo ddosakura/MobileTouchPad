@@ -11,6 +11,7 @@ import actionInit from './actions'
 import initKB, {
     disableKB,
 } from './keyboard'
+import initMKB from './mkb'
 
 window.onload = function () {
     // 禁止 iOS 下的页面异常滚动
@@ -32,9 +33,21 @@ window.onload = function () {
         }
     })
     */
-    fromEvent(stateEl, 'tap').subscribe(() => {
+
+    const mkb = document.getElementById("m-inputer")
+    const kb = document.getElementById("inputer")
+    fromEvent(new Hammer(stateEl), 'tap').subscribe(() => {
+        mkb.className = 'hide'
         disableKB(kb)
     })
+
+    const elI = document.getElementById("mi")
+    const elT = document.getElementById("m-tap")
+    const elS = document.getElementById("m-send")
+    const elU = document.getElementById("m-up")
+    const elD = document.getElementById("m-down")
+    const elR = document.getElementById("m-reset")
+    initMKB(elI, elT, elS, elU, elD, elR)
 
     /*
     const configEl = document.getElementById("config")
@@ -42,8 +55,6 @@ window.onload = function () {
     const configValEl = document.getElementById("config-val")
     configInit(configEl, configBlockEl, configValEl)
     */
-
-    const kb = document.getElementById("inputer")
 
     const objEl = document.getElementById("obj")
     const objEl_L = document.getElementById("obj-left")
@@ -57,6 +68,10 @@ window.onload = function () {
         elr: objEl_R,
         initKB: function () {
             initKB(kb, rootEl.clientWidth, rootEl.clientHeight)
+        },
+        initMKB: function () {
+            mkb.className = ''
+            elI.focus()
         },
     }, function (state) {
         stateEl.innerHTML = state
